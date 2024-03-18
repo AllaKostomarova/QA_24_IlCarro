@@ -16,8 +16,9 @@ public class HelperBase {
 
     public void clickElement(By locator){
         //The method finds an element by locator and clicks on the element
-        WebElement element = wd.findElement(locator);
-        element.click();
+//        WebElement element = wd.findElement(locator);
+//        element.click();
+        wd.findElement(locator).click();
     }
 
     public void typePositiveText(By locator, String text){
@@ -26,7 +27,7 @@ public class HelperBase {
         WebElement element = wd.findElement(locator);
         element.click();
         element.clear();
-        if(text != null || !text.isEmpty())
+        if(text != null && !text.isEmpty())
             element.sendKeys(text);
     }
 
@@ -36,5 +37,16 @@ public class HelperBase {
         // The method returns False if the list is empty
         List<WebElement> list = wd.findElements(locator);
         return list.size() > 0;
+    }
+
+    public void pause(int time){
+        //The method is for debugging of project
+        // time is in miles seconds
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

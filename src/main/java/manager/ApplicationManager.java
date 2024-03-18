@@ -21,7 +21,7 @@ public class ApplicationManager {
         helperUser = new HelperUser(wd);
     }
 
-    public void pause(){
+    public void waitElement(){
         wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
