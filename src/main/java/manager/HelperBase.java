@@ -31,6 +31,12 @@ public class HelperBase {
             element.sendKeys(text);
     }
 
+    public void clickInField(By locator){
+        WebElement element = wd.findElement(locator);
+        element.click();
+        element.clear();
+    }
+
     public boolean isElementPresent(By locator){
         //The method finds elements by locator and writes them to the List
         //The method returns True if the list contains some elements
@@ -48,5 +54,14 @@ public class HelperBase {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public boolean isYallaButtonNotActive() {
+        // type 1
+        boolean res = isElementPresent(By.cssSelector("button[disabled]"));
+        //type 2
+        WebElement el = wd.findElement(By.cssSelector("button[type='submit']"));
+        boolean result = el.isEnabled(); // Active --> return True, Not Active --> return False
+        return res && !result;
     }
 }

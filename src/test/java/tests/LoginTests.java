@@ -45,11 +45,8 @@ public void loginSuccessFull(){
 @Test
 public void loginSuccessWithObjectUser(){
     User user = new User().withEmail("aa@aa.ru").withPassword("Test123$");
-
 //        user.setEmail("aa@aa.ru");
 //        user.setPassword("Test123$");
-
-
     app.getHelperUser().openLoginForm();
     Assert.assertTrue(app.getHelperUser().isLoginFormOpen());
     app.getHelperUser().fillLoginForm(user);
@@ -64,9 +61,9 @@ public void loginWrongEmail(){
     User user = new User().withEmail("aaaa.ru").withPassword("Test123$");
     app.getHelperUser().openLoginForm();
     app.getHelperUser().fillLoginForm(user);
-    //Assert.assertTrue(app.getHelperUser().isErrorMessageWrongEmailPresent());
-    Assert.assertTrue(app.getHelperUser().isBtnYllaDisabled());
-    //Assert.assertEquals(app.getHelperUser().getMessageWrongEmail(), "It'snot look like email");
+    Assert.assertTrue(app.getHelperUser().isErrorMessageWrongEmailPresent());
+    Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
+    Assert.assertEquals(app.getHelperUser().getErrorMessageWrongEmail(), "It'snot look like email");
     app.getHelperUser().submitYala();
     Assert.assertFalse(app.getHelperUser().isUserPageOpen());
 }
@@ -87,6 +84,27 @@ public void loginUnregisteredUser(){
     app.getHelperUser().fillLoginForm(user);
     app.getHelperUser().submitYala();
     Assert.assertEquals(app.getHelperUser().getMessageLoginFailed(), "\"Login or Password incorrect\"");
+    Assert.assertFalse(app.getHelperUser().isUserPageOpen());
+}
+
+@Test
+public void loginEmailIsNull(){
+    app.getHelperUser().openLoginForm();
+    app.getHelperUser().clickEmailField();
+    app.getHelperUser().fillPassField("Test123$");
+    Assert.assertEquals(app.getHelperUser().getErrorMessageWrongEmail(), "Email is required");
+    Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
+    app.getHelperUser().submitYala();
+    Assert.assertFalse(app.getHelperUser().isUserPageOpen());
+}
+@Test
+public void loginPassIsNull(){
+    app.getHelperUser().openLoginForm();
+    app.getHelperUser().fillEmailField("aa@aa.ru");
+    app.getHelperUser().clickPassField();
+    Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
+    app.getHelperUser().submitYala();
+    Assert.assertEquals(app.getHelperUser().getErrorMessageWrongEmail(), "Password is required");
     Assert.assertFalse(app.getHelperUser().isUserPageOpen());
 }
 }
