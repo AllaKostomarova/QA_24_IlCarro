@@ -12,10 +12,12 @@ public void precondition(){
     if(app.getHelperUser().isUserPageOpen())
         app.getHelperUser().logout();
     app.getHelperUser().toHomePage();
+    app.getHelperUser().pause(3000);
 }
 
 @AfterMethod
 public void postcondition(){
+    app.waitElement();
     if (app.getHelperUser().isButtonOkPresent())
         app.getHelperUser().clickOkBtn();
     }
