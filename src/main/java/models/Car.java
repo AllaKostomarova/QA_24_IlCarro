@@ -18,7 +18,7 @@ public class Car {
     private String fuel;
     private int seats;
     private String carClass;
-    private String carRegMumber;
+    private String carRegNumber;
     private double price;
     private String about;
 

@@ -1,5 +1,6 @@
 package manager;
 
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -7,11 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
     WebDriver wd;
+    @Getter
     HelperUser helperUser;
-
-    public HelperUser getHelperUser() {
-        return helperUser;
-    }
 
     public void init(){
         wd = new ChromeDriver();

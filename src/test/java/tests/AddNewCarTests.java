@@ -15,7 +15,7 @@ public class AddNewCarTests extends TestBase{
                 .fuel("Petrol")
                 .seats(4)
                 .carClass("C")
-                .carRegMumber("567-600-"+i)
+                .carRegNumber("567-600-"+i)
                 .price(50)
                 .about("Nice Car")
                 .build();
