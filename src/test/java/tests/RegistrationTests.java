@@ -63,7 +63,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().openRegistrationForm();
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
         app.getHelperUser().fillRegistrationForm(user);
-        app.getHelperUser().clickCheckBoxTermsAndPolicy();
+        app.getHelperUser().clickCheckBoxPolicyXY();
         app.getHelperUser().submitYala();
         Assert.assertTrue(app.getHelperUser().isRegistered());
         Assert.assertEquals(app.getHelperUser().getMessageSuccessfulRegistration(), "You are logged in success");

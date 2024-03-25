@@ -1,9 +1,21 @@
 package tests;
 
 import models.Car;
+import models.User;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class AddNewCarTests extends TestBase{
+
+    @BeforeClass
+    public void preCondition(){
+        if(!app.getHelperUser().isLogged()){
+            app.getHelperUser().logIn(new User()
+                    .withEmail("aa@aa.ru")
+                    .withPassword("Test123$"));
+
+        }
+    }
     @Test
     public void addNewCarSuccess(){
         int i = (int)(System.currentTimeMillis()/1000)%3600;
@@ -19,6 +31,10 @@ public class AddNewCarTests extends TestBase{
                 .price(50)
                 .about("Nice Car")
                 .build();
+
+        app.getHelperCar().openCarForm();
+        app.getHelperCar().fillCarForm(car);
+        app.getHelperCar().submitYala();
 
     }
 }

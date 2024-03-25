@@ -10,6 +10,8 @@ public class ApplicationManager {
     WebDriver wd;
     @Getter
     HelperUser helperUser;
+    @Getter
+    HelperCar helperCar;
 
     public void init(){
         wd = new ChromeDriver();
@@ -17,6 +19,7 @@ public class ApplicationManager {
         wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         wd.navigate().to("https://ilcarro.web.app/");
         helperUser = new HelperUser(wd);
+        helperCar = new HelperCar(wd);
     }
 
     public void waitElement(){

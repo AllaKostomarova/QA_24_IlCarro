@@ -1,11 +1,10 @@
 package manager;
 
 import models.User;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 
+import javax.swing.*;
 import java.util.SplittableRandom;
 
 public class HelperUser extends HelperBase{
@@ -22,13 +21,10 @@ public class HelperUser extends HelperBase{
     By titleLogoutInHeader = By.xpath("//a[text()=' Logout ']");
     By inputEmail = By.id("email");
     By inputPass = By.id("password");
-    By btnYalla = By.cssSelector("button[type='submit']");
     By btnOk = By.cssSelector("button[class='positive-button ng-star-inserted']");
 
     //**********COMMON METHODS******************
-    public void submitYala(){
-        clickElement(btnYalla);
-    }
+
     public void toHomePage(){
         clickElement(logoInHeader);
     }
@@ -131,10 +127,32 @@ public class HelperUser extends HelperBase{
         typePositiveText(inputPass, user.getPassword());
     }
     public void clickCheckBoxTermsAndPolicy() {
+        // #1 --> check-box locator (size of check-box is 0x0 -->   you can't click on it)
+        //  By.id("terms-of-use");
 //        clickElement(checkBoxTermsAndPolicy);
+
+        // #2 --> locator of check-box parents (it haves links, because you can't click on it)
+        // By.cssSelector("label[for='terms-of-use']");
 //        clickElement(checkBoxLabel);
+
+        // #3 --> click through java-script
         JavascriptExecutor js = (JavascriptExecutor) wd;
         js.executeScript("document.querySelector('#terms-of-use').click()");
+    }
+
+    public void clickCheckBoxPolicyXY(){
+        // #4 --> moving check-box coordinates
+//        Dimension size = wd.manage().window().getSize();
+//        System.out.println("Wight screen --> " + size.getWidth());
+        WebElement label = wd.findElement(checkBoxLabel);
+        Rectangle rect = label.getRect();
+        int w = rect.getWidth();
+        Actions actions = new Actions(wd);
+        int xOffSet = -w/2;
+
+        // .release --> collects all actions methods into single process (moveToElement + click)
+        // .perform --> starts release/process of methods
+        actions.moveToElement(label, xOffSet, 0).click().release().perform();
     }
     public String getMessageSuccessfulRegistration(){
         return wd.findElement(messageRegisteredSuccess).getText();
@@ -147,4 +165,10 @@ public class HelperUser extends HelperBase{
         return isElementPresent(messageRegisteredSuccess);
     }
 
+    public void logIn(User user) {
+        openLoginForm();
+        fillLoginForm(user);
+        submitYala();
+        clickOkBtn();
+    }
 }

@@ -64,4 +64,10 @@ public class HelperBase {
         boolean result = el.isEnabled(); // Active --> return True, Not Active --> return False
         return res && !result;
     }
+
+    public void submitYala(){
+        clickElement(By.cssSelector("button[type='submit']"));
+    }
+
+
 }
