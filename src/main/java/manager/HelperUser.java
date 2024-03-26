@@ -114,6 +114,8 @@ public class HelperUser extends HelperBase{
     By checkBoxLabel = By.cssSelector("label[for='terms-of-use']");
     By paneRegisteredSuccess = By.cssSelector("div[class='cdk-overlay-pane']");
     By messageRegisteredSuccess = By.cssSelector("h2[class='message']");
+    By errorTextForField = By.cssSelector("div.error");
+    By titleRegistration = By.xpath("//h1");
 
 
     //----------REGISTRATION METHODS-------------------
@@ -154,7 +156,8 @@ public class HelperUser extends HelperBase{
         // .perform --> starts release/process of methods
         actions.moveToElement(label, xOffSet, 0).click().release().perform();
     }
-    public String getMessageSuccessfulRegistration(){
+
+    public String getRegistrationMessage(){
         return wd.findElement(messageRegisteredSuccess).getText();
     }
 
@@ -162,7 +165,7 @@ public class HelperUser extends HelperBase{
         return isElementPresent(registrationForm);
     }
     public boolean isRegistered(){
-        return isElementPresent(messageRegisteredSuccess);
+        return getRegistrationMessage().equals("You are logged in success");
     }
 
     public void logIn(User user) {
@@ -170,5 +173,9 @@ public class HelperUser extends HelperBase{
         fillLoginForm(user);
         submitYala();
         clickOkBtn();
+    }
+
+    public String getErrorTextForField(){
+        return wd.findElement(errorTextForField).getText();
     }
 }
