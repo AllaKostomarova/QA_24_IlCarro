@@ -16,7 +16,7 @@ public class TestBase {
 
     @AfterSuite
     public void teatDown(){
-       // app.stop();
+        app.stop();
     }
 
 

@@ -9,7 +9,7 @@ public class LoginTests extends TestBase{
 
 @BeforeMethod
 public void precondition(){
-    if(app.getHelperUser().isUserPageOpen())
+    if(app.getHelperUser().isLogged())
         app.getHelperUser().logout();
     app.getHelperUser().toHomePage();
     app.getHelperUser().pause(3000);
@@ -28,9 +28,9 @@ public void loginSuccess(){
     Assert.assertTrue(app.getHelperUser().isLoginFormOpen());
     app.getHelperUser().fillLoginForm("aa@aa.ru", "Test123$");
     app.getHelperUser().submitYala();
+    app.waitElement();
+    Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "Logged in success");
     Assert.assertTrue(app.getHelperUser().isLogged());
-    Assert.assertEquals(app.getHelperUser().getMessage(), "Logged in success");
-    Assert.assertTrue(app.getHelperUser().isUserPageOpen());
     }
 
 @Test
@@ -38,9 +38,10 @@ public void loginSuccessFull(){
     app.getHelperUser().openLoginForm();
     app.getHelperUser().fillLoginForm("x@x.ru", "Test123$");
     app.getHelperUser().submitYala();
-    Assert.assertTrue(app.getHelperUser().isLogged());
+    app.waitElement();
+    Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "Logged in success");
     app.getHelperUser().clickOkBtn();
-    Assert.assertTrue(app.getHelperUser().isUserPageOpen());
+    Assert.assertTrue(app.getHelperUser().isLogged());
     app.getHelperUser().logout();
 }
 
@@ -53,9 +54,9 @@ public void loginSuccessWithObjectUser(){
     Assert.assertTrue(app.getHelperUser().isLoginFormOpen());
     app.getHelperUser().fillLoginForm(user);
     app.getHelperUser().submitYala();
+    app.waitElement();
+    Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "Logged in success");
     Assert.assertTrue(app.getHelperUser().isLogged());
-    Assert.assertEquals(app.getHelperUser().getMessage(), "Logged in success");
-    Assert.assertTrue(app.getHelperUser().isUserPageOpen());
     }
 
 @Test
@@ -63,11 +64,10 @@ public void loginWrongEmail(){
     User user = new User().withEmail("aaaa.ru").withPassword("Test123$");
     app.getHelperUser().openLoginForm();
     app.getHelperUser().fillLoginForm(user);
-    Assert.assertTrue(app.getHelperUser().isErrorMessageWrongEmailPresent());
     Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
-    Assert.assertEquals(app.getHelperUser().getErrorMessageWrongEmail(), "It'snot look like email");
+    Assert.assertEquals(app.getHelperUser().getErrorText(), "It'snot look like email");
     app.getHelperUser().submitYala();
-    Assert.assertFalse(app.getHelperUser().isUserPageOpen());
+    Assert.assertFalse(app.getHelperUser().isLogged());
 }
 @Test
 public void loginWrongPassword(){
@@ -75,8 +75,8 @@ public void loginWrongPassword(){
     app.getHelperUser().openLoginForm();
     app.getHelperUser().fillLoginForm(user);
     app.getHelperUser().submitYala();
-    Assert.assertEquals(app.getHelperUser().getMessageLoginFailed(), "\"Login or Password incorrect\"");
-    Assert.assertFalse(app.getHelperUser().isUserPageOpen());
+    Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "\"Login or Password incorrect\"");
+    Assert.assertFalse(app.getHelperUser().isLogged());
 }
 
 @Test
@@ -85,8 +85,9 @@ public void loginUnregisteredUser(){
     app.getHelperUser().openLoginForm();
     app.getHelperUser().fillLoginForm(user);
     app.getHelperUser().submitYala();
-    Assert.assertEquals(app.getHelperUser().getMessageLoginFailed(), "\"Login or Password incorrect\"");
-    Assert.assertFalse(app.getHelperUser().isUserPageOpen());
+    app.waitElement();
+    Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "\"Login or Password incorrect\"");
+    Assert.assertFalse(app.getHelperUser().isLogged());
 }
 
 @Test
@@ -94,10 +95,10 @@ public void loginEmailIsNull(){
     app.getHelperUser().openLoginForm();
     app.getHelperUser().clickEmailField();
     app.getHelperUser().fillPassField("Test123$");
-    Assert.assertEquals(app.getHelperUser().getErrorMessageWrongEmail(), "Email is required");
+    Assert.assertEquals(app.getHelperUser().getErrorText(), "Email is required");
     Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
     app.getHelperUser().submitYala();
-    Assert.assertFalse(app.getHelperUser().isUserPageOpen());
+    Assert.assertFalse(app.getHelperUser().isLogged());
 }
 @Test
 public void loginPassIsNull(){
@@ -106,7 +107,7 @@ public void loginPassIsNull(){
     app.getHelperUser().clickPassField();
     Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
     app.getHelperUser().submitYala();
-    Assert.assertEquals(app.getHelperUser().getErrorMessageWrongEmail(), "Password is required");
-    Assert.assertFalse(app.getHelperUser().isUserPageOpen());
+    Assert.assertEquals(app.getHelperUser().getErrorText(), "Password is required");
+    Assert.assertFalse(app.getHelperUser().isLogged());
 }
 }

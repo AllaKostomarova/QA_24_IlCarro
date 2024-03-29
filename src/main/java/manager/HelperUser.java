@@ -22,6 +22,8 @@ public class HelperUser extends HelperBase{
     By inputEmail = By.id("email");
     By inputPass = By.id("password");
     By btnOk = By.cssSelector("button[class='positive-button ng-star-inserted']");
+//    By errorTextForField = By.xpath("//div[@class='error']");
+    By errorTextForField = By.cssSelector("div.error");
 
     //**********COMMON METHODS******************
 
@@ -31,25 +33,25 @@ public class HelperUser extends HelperBase{
     public void clickOkBtn(){
         clickElement(btnOk);
     }
-    public boolean isUserPageOpen(){
+    public boolean isLogged(){
         return isElementPresent(titleDeletedAccountInHeader);
     }
     public boolean isButtonOkPresent(){
         return isElementPresent(btnOk);
     }
+    public String getErrorText(){
+        return wd.findElement(errorTextForField).getText();
+    }
 
 
     //******************LOGIN****************
     //----------LOGIN LOCATORS---------------
-    By loginForm = By.className("login-registration-progress-container");
-    By dialogContainer = By.cssSelector("mat-dialog-container[class='mat-dialog-container ng-tns-c31-0 ng-trigger ng-trigger-dialogContainer ng-star-inserted']");
+
+    //By dialogContainer = By.cssSelector("mat-dialog-container[class='mat-dialog-container ng-tns-c31-0 ng-trigger ng-trigger-dialogContainer ng-star-inserted']");
     //xpath --> //h2[text()='Logged in success']
     //CSS --> mat-dialog-container[class='mat-dialog-container ng-tns-c31-0 ng-trigger ng-trigger-dialogContainer ng-star-inserted']
     //CSS --> div[class='cdk-overlay-pane']
-    By textLoginSuccess = By.cssSelector(".dialog-container>h2");
-    By textErrorEmail = By.xpath("//div[@class='error']");
-    By textLoginFailed = By.cssSelector(".dialog-container>h2");
-    //By textMissingEmail = By.cssSelector();
+    By loginForm = By.className("login-registration-progress-container");
 
     //-----------LOGIN METHODS----------------
     public void openLoginForm(){
@@ -81,28 +83,6 @@ public class HelperUser extends HelperBase{
     public boolean isLoginFormOpen(){
         return isElementPresent(loginForm);
     }
-    public boolean isLogged(){
-        return isElementPresent(textLoginSuccess);
-    }
-    public boolean isErrorMessageWrongEmailPresent(){
-        return isElementPresent(textErrorEmail);
-    }
-    public String getMessage() {
-        return wd.findElement((textLoginSuccess)).getText();
-    }
-
-//    public boolean isBtnYllaDisabled() {
-//        String attribute = wd.findElement(btnYalla).getAttribute("disabled");
-//        return attribute !=null;
-//    }
-
-     public String getErrorMessageWrongEmail(){
-        return wd.findElement(textErrorEmail).getText();
-     }
-     public String getMessageLoginFailed(){
-        return wd.findElement(textLoginFailed).getText();
-     }
-
      
     //*************REGISTRATION***********************
     //----------REGISTRATION LOCATORS-------------------
@@ -112,9 +92,6 @@ public class HelperUser extends HelperBase{
     By inputLastName = By.id("lastName");
     By checkBoxTermsAndPolicy = By.id("terms-of-use");
     By checkBoxLabel = By.cssSelector("label[for='terms-of-use']");
-    By paneRegisteredSuccess = By.cssSelector("div[class='cdk-overlay-pane']");
-    By messageRegisteredSuccess = By.cssSelector("h2[class='message']");
-    By errorTextForField = By.cssSelector("div.error");
     By titleRegistration = By.xpath("//h1");
 
 
@@ -142,30 +119,28 @@ public class HelperUser extends HelperBase{
         js.executeScript("document.querySelector('#terms-of-use').click()");
     }
 
-    public void clickCheckBoxPolicyXY(){
+    public void clickCheckBoxPolicyXY() {
         // #4 --> moving check-box coordinates
 //        Dimension size = wd.manage().window().getSize();
 //        System.out.println("Wight screen --> " + size.getWidth());
-        WebElement label = wd.findElement(checkBoxLabel);
-        Rectangle rect = label.getRect();
-        int w = rect.getWidth();
-        Actions actions = new Actions(wd);
-        int xOffSet = -w/2;
 
-        // .release --> collects all actions methods into single process (moveToElement + click)
-        // .perform --> starts release/process of methods
-        actions.moveToElement(label, xOffSet, 0).click().release().perform();
+        if (!wd.findElement(checkBoxLabel).isSelected()) {
+            WebElement label = wd.findElement(checkBoxLabel);
+            Rectangle rect = label.getRect();
+            int w = rect.getWidth();
+            Actions actions = new Actions(wd);
+            int xOffSet = -w / 2;
+
+            // .release --> collects all actions methods into single process (moveToElement + click)
+            // .perform --> starts release/process of methods
+            actions.moveToElement(label, xOffSet, 0).click().release().perform();
+        }
     }
-
-    public String getRegistrationMessage(){
-        return wd.findElement(messageRegisteredSuccess).getText();
-    }
-
     public boolean isRegistrationFormOpen(){
         return isElementPresent(registrationForm);
     }
     public boolean isRegistered(){
-        return getRegistrationMessage().equals("You are logged in success");
+        return getMessageFromPane().equals("You are logged in success");
     }
 
     public void logIn(User user) {
@@ -175,7 +150,5 @@ public class HelperUser extends HelperBase{
         clickOkBtn();
     }
 
-    public String getErrorTextForField(){
-        return wd.findElement(errorTextForField).getText();
-    }
+
 }

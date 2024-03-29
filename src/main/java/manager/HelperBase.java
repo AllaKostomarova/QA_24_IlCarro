@@ -14,6 +14,8 @@ public class HelperBase {
         this.wd = wd;
     }
 
+    //=======SERVICE METHODS=================
+
     public void clickElement(By locator){
         //The method finds an element by locator and clicks on the element
 //        WebElement element = wd.findElement(locator);
@@ -56,17 +58,35 @@ public class HelperBase {
 
     }
 
+    //======APPLIED METHODS============
+
+    //=======LOCATORS================
+    By yallaButtonDisabled = By.cssSelector("button[disabled]");
+    By yallaButton = By.cssSelector("button[type='submit']");
+    By textOfDialogContainer = By.cssSelector(".dialog-container>h2");
+
+
+    //=========COMMON METHODS================
+//    public boolean isBtnYllaDisabled() {
+//        String attribute = wd.findElement(btnYalla).getAttribute("disabled");
+//        return attribute !=null;
+//    }
     public boolean isYallaButtonNotActive() {
         // type 1
-        boolean res = isElementPresent(By.cssSelector("button[disabled]"));
+        boolean res = isElementPresent(yallaButtonDisabled);
         //type 2
-        WebElement el = wd.findElement(By.cssSelector("button[type='submit']"));
+        WebElement el = wd.findElement(yallaButton);
         boolean result = el.isEnabled(); // Active --> return True, Not Active --> return False
         return res && !result;
     }
 
     public void submitYala(){
-        clickElement(By.cssSelector("button[type='submit']"));
+        clickElement(yallaButton);
+    }
+
+
+    public String getMessageFromPane() {
+        return wd.findElement((textOfDialogContainer)).getText();
     }
 
 

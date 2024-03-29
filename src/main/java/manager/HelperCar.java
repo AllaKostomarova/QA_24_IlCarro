@@ -55,4 +55,12 @@ public class HelperCar extends HelperBase{
 
     public void submitCarForm() {
     }
+
+    public void returnToHome() {
+        clickElement(By.xpath("//button[text()='Search cars']"));
+    }
+
+    public void attachPhoto(String link) {
+        wd.findElement(By.id("photos")).sendKeys(link);
+    }
 }

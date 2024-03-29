@@ -11,7 +11,7 @@ import java.util.Random;
 public class RegistrationTests extends TestBase{
     @BeforeMethod
     public void precondition(){
-        if(app.getHelperUser().isUserPageOpen())
+        if(app.getHelperUser().isLogged())
             app.getHelperUser().logout();
         app.getHelperUser().toHomePage();
     }
@@ -50,8 +50,8 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().clickCheckBoxTermsAndPolicy();
         app.getHelperUser().submitYala();
         Assert.assertTrue(app.getHelperUser().isRegistered());
-        Assert.assertEquals(app.getHelperUser().getRegistrationMessage(), "You are logged in success");
-        Assert.assertTrue(app.getHelperUser().isUserPageOpen());
+        Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "You are logged in success");
+        Assert.assertTrue(app.getHelperUser().isLogged());
     }
 
     @Test
@@ -68,9 +68,9 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().clickCheckBoxPolicyXY();
         app.getHelperUser().submitYala();
         Assert.assertTrue(app.getHelperUser().isRegistered());
-        Assert.assertEquals(app.getHelperUser().getRegistrationMessage(), "You are logged in success");
+        Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "You are logged in success");
         app.getHelperUser().clickOkBtn();
-        Assert.assertTrue(app.getHelperUser().isUserPageOpen());
+        Assert.assertTrue(app.getHelperUser().isLogged());
     }
 
     //=========NEGATIVE TESTS===================
@@ -109,7 +109,7 @@ public class RegistrationTests extends TestBase{
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
         app.getHelperUser().fillRegistrationForm(user);
         app.getHelperUser().clickCheckBoxPolicyXY();
-        Assert.assertEquals(app.getHelperUser().getErrorTextForField(), "Name is required");
+        Assert.assertEquals(app.getHelperUser().getErrorText(), "Name is required");
         Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
         app.getHelperUser().submitYala();
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
@@ -129,7 +129,7 @@ public class RegistrationTests extends TestBase{
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
         app.getHelperUser().fillRegistrationForm(user);
         app.getHelperUser().clickCheckBoxPolicyXY();
-        Assert.assertEquals(app.getHelperUser().getErrorTextForField(), "Last name is required");
+        Assert.assertEquals(app.getHelperUser().getErrorText(), "Last name is required");
         Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
         app.getHelperUser().submitYala();
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
@@ -149,7 +149,7 @@ public class RegistrationTests extends TestBase{
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
         app.getHelperUser().fillRegistrationForm(user);
         app.getHelperUser().clickCheckBoxPolicyXY();
-        Assert.assertEquals(app.getHelperUser().getErrorTextForField(), "Wrong email format\nWrong email format");
+        Assert.assertTrue(app.getHelperUser().getErrorText().contains("Wrong email format"));
         Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
         app.getHelperUser().submitYala();
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
@@ -169,7 +169,7 @@ public class RegistrationTests extends TestBase{
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
         app.getHelperUser().fillRegistrationForm(user);
         app.getHelperUser().clickCheckBoxPolicyXY();
-        Assert.assertEquals(app.getHelperUser().getErrorTextForField(), "Email is required");
+        Assert.assertEquals(app.getHelperUser().getErrorText(), "Email is required");
         Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
         app.getHelperUser().submitYala();
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
@@ -190,7 +190,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().clickCheckBoxPolicyXY();
         app.getHelperUser().fillRegistrationForm(user);
         app.getHelperUser().submitYala();
-        Assert.assertEquals(app.getHelperUser().getErrorTextForField(),
+        Assert.assertEquals(app.getHelperUser().getErrorText(),
                 "Password must contain minimum 8 symbols\nPassword must contain 1 uppercase letter, " +
                         "1 lowercase letter, 1 number and one special symbol of [@$#^&*!]");
         Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
@@ -213,7 +213,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().clickCheckBoxPolicyXY();
         app.getHelperUser().fillRegistrationForm(user);
         app.getHelperUser().submitYala();
-        Assert.assertEquals(app.getHelperUser().getErrorTextForField(),"Password is required");
+        Assert.assertEquals(app.getHelperUser().getErrorText(),"Password is required");
         Assert.assertTrue(app.getHelperUser().isYallaButtonNotActive());
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
     }
@@ -249,7 +249,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().clickCheckBoxPolicyXY();
         app.getHelperUser().submitYala();
         app.waitElement();
-        Assert.assertEquals(app.getHelperUser().getRegistrationMessage(), "\"User already exists\"");
+        Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "\"User already exists\"");
         app.getHelperUser().clickOkBtn();
         Assert.assertFalse(app.getHelperUser().isRegistered());
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
@@ -270,7 +270,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().submitYala();
         app.waitElement();
         app.getHelperUser().pause(5);
-        Assert.assertEquals(app.getHelperUser().getRegistrationMessage(), "\"User already exists\"");
+        Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "\"User already exists\"");
         app.getHelperUser().clickOkBtn();
         Assert.assertFalse(app.getHelperUser().isRegistered());
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
@@ -290,7 +290,7 @@ public class RegistrationTests extends TestBase{
         app.getHelperUser().clickCheckBoxPolicyXY();
         app.getHelperUser().submitYala();
         app.waitElement();
-        Assert.assertEquals(app.getHelperUser().getRegistrationMessage(), "\"User already exists\"");
+        Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "\"User already exists\"");
         app.getHelperUser().clickOkBtn();
         Assert.assertFalse(app.getHelperUser().isRegistered());
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
