@@ -43,6 +43,7 @@ public class AddNewCarTests extends TestBase{
         app.getHelperCar().fillCarForm(car);
         app.getHelperCar().attachPhoto("C:\\Users\\allak\\OneDrive\\Documents\\TelRanProjects\\QA_24_IlCarro\\lamb.jpeg");
         app.getHelperCar().submitYala();
+        app.getHelperCar().pause(5);
         Assert.assertTrue(app.getHelperCar().getMessageFromPane().contains("added successful"));
         Assert.assertEquals(app.getHelperCar().getMessageFromPane(),
                 car.getManufacture() + " " + car.getModel() + " " + "added successful");
@@ -66,6 +67,7 @@ public class AddNewCarTests extends TestBase{
         app.getHelperCar().openCarForm();
         app.getHelperCar().fillCarForm(car);
         app.getHelperCar().submitYala();
+        app.getHelperCar().pause(5);
         Assert.assertTrue(app.getHelperCar().getMessageFromPane().contains("added successful"));
         Assert.assertEquals(app.getHelperCar().getMessageFromPane(),
                 car.getManufacture() + " " + car.getModel() + " " + "added successful");
