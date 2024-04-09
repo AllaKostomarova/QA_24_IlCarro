@@ -1,9 +1,10 @@
 package manager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.google.common.io.Files;
+import org.openqa.selenium.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class HelperBase {
@@ -88,6 +89,16 @@ public class HelperBase {
     public String getMessageFromPane() {
         return wd.findElement((textOfDialogContainer)).getText();
     }
+    public void getScreen(String link){
+        TakesScreenshot scr = (TakesScreenshot) wd;
+        File file = scr.getScreenshotAs(OutputType.FILE);
+        try {
+            Files.copy(file, new File(link));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 }
