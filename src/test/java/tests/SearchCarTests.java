@@ -1,5 +1,6 @@
 package tests;
 
+import manager.DataProviderSearchCar;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -9,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchCarTests extends TestBase{
-//    @AfterMethod
-//    public void postCondition(){
-//        app.getHelperCar().navigateByLogo();
-//        app.getHelperCar().clearCityField();
-//        app.getHelperCar().clearDateField();
-//    }
+    @AfterMethod
+    public void postCondition(){
+        app.getHelperCar().navigateByLogo();
+        app.getHelperCar().clearCityField();
+        app.getHelperCar().clearDateField();
+    }
 
 
     @Test
@@ -54,8 +55,20 @@ public class SearchCarTests extends TestBase{
         errorTexts.add("You can't book car for less than a day");
         errorTexts.add("Dates are required");
         Assert.assertTrue(errorTexts.contains(app.getHelperCar().getTextOfDateError()));
+    }
 
+    @Test(dataProvider = "selectDates", dataProviderClass = DataProviderSearchCar.class)
+    public void searchNegativeTest_WrongPeriodDPFile(String date){
+        app.getHelperCar().fillCarSearchForm("Tel Aviv", date);
+        app.getHelperCar().getScreen("src/test/resources/screenshots/wrongPeriodDPFile.png");
+        Assert.assertTrue(app.getHelperCar().isYallaButtonNotActive());
 
-
+        Assert.assertTrue(app.getHelperCar().isTextOfDateErrorPresent());
+        List<String> errorTexts = new ArrayList<>();
+        errorTexts.add("You can't pick date before today");
+        errorTexts.add("Second date must be after first date");
+        errorTexts.add("You can't book car for less than a day");
+        errorTexts.add("Dates are required");
+        Assert.assertTrue(errorTexts.contains(app.getHelperCar().getTextOfDateError()));
     }
 }
