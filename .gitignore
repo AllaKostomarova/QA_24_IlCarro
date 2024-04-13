@@ -5,6 +5,7 @@ build/
 !**/src/test/**/build/
 logs/
 
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -16,6 +17,7 @@ logs/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+*.png
 
 ### Eclipse ###
 .apt_generated
