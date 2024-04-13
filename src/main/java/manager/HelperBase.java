@@ -52,7 +52,7 @@ public class HelperBase {
         //The method is for debugging of project
         // time is in miles seconds
         try {
-            Thread.sleep(time);
+            Thread.sleep(time*1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -89,6 +89,11 @@ public class HelperBase {
     public String getMessageFromPane() {
         return wd.findElement((textOfDialogContainer)).getText();
     }
+
+    public String getMessage(By locator) {
+        return wd.findElement((locator)).getText();
+    }
+
     public void getScreen(String link){
         TakesScreenshot scr = (TakesScreenshot) wd;
         File file = scr.getScreenshotAs(OutputType.FILE);
@@ -97,6 +102,18 @@ public class HelperBase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void clearTextBox(By locator){
+        WebElement el = wd.findElement(locator);
+        String os = System.getProperty("os.name");
+        if(os.startsWith("Wind")){
+            el.sendKeys(Keys.CONTROL, "a");
+        }else {
+            el.sendKeys(Keys.COMMAND);
+        }
+        el.sendKeys(Keys.DELETE);
+
     }
 
 
