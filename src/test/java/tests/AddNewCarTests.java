@@ -1,5 +1,6 @@
 package tests;
 
+import manager.DataProviderAddNewCar;
 import models.Car;
 import models.User;
 import org.testng.Assert;
@@ -63,6 +64,18 @@ public class AddNewCarTests extends TestBase{
                 .carRegNumber("567-600-"+i)
                 .price(50)
                 .build();
+
+        app.getHelperCar().openCarForm();
+        app.getHelperCar().fillCarForm(car);
+        app.getHelperCar().submitYala();
+        app.getHelperCar().pause(5);
+        Assert.assertTrue(app.getHelperCar().getMessageFromPane().contains("added successful"));
+        Assert.assertEquals(app.getHelperCar().getMessageFromPane(),
+                car.getManufacture() + " " + car.getModel() + " " + "added successful");
+    }
+
+    @Test(dataProvider = "addNewCarFromFileCSV", dataProviderClass = DataProviderAddNewCar.class)
+    public void addNewCarSuccess_dataFromFileCSV(Car car){
 
         app.getHelperCar().openCarForm();
         app.getHelperCar().fillCarForm(car);

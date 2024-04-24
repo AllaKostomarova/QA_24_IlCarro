@@ -10,9 +10,9 @@ import java.util.List;
 public class DataProviderSearchCar {
 
     @DataProvider
-    public Iterator<String> FilData() throws IOException {
+    public Iterator<String> selectDates() throws IOException {
         List<String> list = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/invaliddtes.csv")));
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/invalidates.csv")));
         String line = reader.readLine();
         while (line !=null) {
             list.add(line);

@@ -4,13 +4,14 @@ import manager.DataProviderSearchCar;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchCarTests extends TestBase{
-    @AfterMethod
+    @BeforeMethod
     public void postCondition(){
         app.getHelperCar().navigateByLogo();
         app.getHelperCar().clearCityField();
@@ -60,7 +61,7 @@ public class SearchCarTests extends TestBase{
     @Test(dataProvider = "selectDates", dataProviderClass = DataProviderSearchCar.class)
     public void searchNegativeTest_WrongPeriodDPFile(String date){
         app.getHelperCar().fillCarSearchForm("Tel Aviv", date);
-        app.getHelperCar().getScreen("src/test/resources/screenshots/wrongPeriodDPFile.png");
+        //app.getHelperCar().getScreen("src/test/resources/screenshots/wrongPeriodDPFile.png");
         Assert.assertTrue(app.getHelperCar().isYallaButtonNotActive());
 
         Assert.assertTrue(app.getHelperCar().isTextOfDateErrorPresent());

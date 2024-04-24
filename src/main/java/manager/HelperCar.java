@@ -27,7 +27,7 @@ public class HelperCar extends HelperBase{
     //==========METHODS=======
 
     public void openCarForm() {
-        pause(500);
+        pause(5);
         clickElement(By.cssSelector("a[id='1']"));
     }
 
@@ -215,9 +215,9 @@ public class HelperCar extends HelperBase{
     }
 
     public void hideCalendar(){
-        JavascriptExecutor js = (JavascriptExecutor) wd;
-        js.executeScript("document.querySelector('div[class=\"cdk-overlay-pane mat-datepicker-popup\"]').style.display='none'");
-
+     //   JavascriptExecutor js = (JavascriptExecutor) wd;
+    //    js.executeScript("document.querySelector('div[class=\"cdk-overlay-pane mat-datepicker-popup\"]').style.display='none'");
+        clickElement(By.cssSelector("div.cdk-overlay-backdrop"));
     }
 
     public String getTextOfDateError(){

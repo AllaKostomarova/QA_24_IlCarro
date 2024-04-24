@@ -48,11 +48,11 @@ public class HelperBase {
         return list.size() > 0;
     }
 
-    public void pause(int time){
+    public void pause(int sec){
         //The method is for debugging of project
         // time is in miles seconds
         try {
-            Thread.sleep(time*1000);
+            Thread.sleep(sec*1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

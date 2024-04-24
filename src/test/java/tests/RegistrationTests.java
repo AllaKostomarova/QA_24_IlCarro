@@ -1,5 +1,6 @@
 package tests;
 
+import manager.DataProviderRegistration;
 import models.User;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -18,6 +19,7 @@ public class RegistrationTests extends TestBase{
 
     @AfterMethod
     public void postcondition(){
+        app.getHelperUser().pause(2);
         if (app.getHelperUser().isButtonOkPresent())
             app.getHelperUser().clickOkBtn();
     }
@@ -62,6 +64,20 @@ public class RegistrationTests extends TestBase{
                 .withLastName("Smit")
                 .withEmail("smit"+i+"@mail.com")
                 .withPassword("Smit123$");
+        app.getHelperUser().openRegistrationForm();
+        Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
+        app.getHelperUser().fillRegistrationForm(user);
+        app.getHelperUser().clickCheckBoxPolicyXY();
+        app.getHelperUser().submitYala();
+        Assert.assertTrue(app.getHelperUser().isRegistered());
+        Assert.assertEquals(app.getHelperUser().getMessageFromPane(), "You are logged in success");
+        app.getHelperUser().clickOkBtn();
+        Assert.assertTrue(app.getHelperUser().isLogged());
+    }
+
+    @Test(dataProvider = "registrationWithFileCSV", dataProviderClass = DataProviderRegistration.class)
+    public void registrationSuccessFull_dataFromFileCSV(User user){
+        // 6 new users from file CSV
         app.getHelperUser().openRegistrationForm();
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
         app.getHelperUser().fillRegistrationForm(user);
@@ -295,6 +311,8 @@ public class RegistrationTests extends TestBase{
         Assert.assertFalse(app.getHelperUser().isRegistered());
         Assert.assertTrue(app.getHelperUser().isRegistrationFormOpen());
     }
+
+
 
 
 }
