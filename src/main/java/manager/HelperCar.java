@@ -21,7 +21,8 @@ public class HelperCar extends HelperBase{
     By btnChooseYear = By.cssSelector("button[aria-label='Choose month and year']");
     By logo = By.cssSelector("a.logo");
     By divSearchCar = By.cssSelector("div.search-card");
-    By textOfDateError = By.cssSelector("div.ng-star-inserted");
+    By textOfDateError = By.cssSelector("div.error");
+    //By.cssSelector("div.ng-star-inserted");
     By satCalendar = By.cssSelector("div[class='cdk-overlay-pane mat-datepicker-popup']");
 
     //==========METHODS=======

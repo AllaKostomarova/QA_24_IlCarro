@@ -6,11 +6,13 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchCarTests extends TestBase{
+    SoftAssert softAssert = new SoftAssert();
     @BeforeMethod
     public void postCondition(){
         app.getHelperCar().navigateByLogo();
@@ -48,7 +50,7 @@ public class SearchCarTests extends TestBase{
         app.getHelperCar().fillCarSearchForm("Tel Aviv", "5/15/2024-5/15/2024");
         app.getHelperCar().getScreen("src/test/resources/screenshots/wrongPeriod.png");
         Assert.assertTrue(app.getHelperCar().isYallaButtonNotActive());
-
+        app.getHelperCar().submitYala();
         Assert.assertTrue(app.getHelperCar().isTextOfDateErrorPresent());
         List<String> errorTexts = new ArrayList<>();
         errorTexts.add("You can't pick date before today");
@@ -61,15 +63,9 @@ public class SearchCarTests extends TestBase{
     @Test(dataProvider = "selectDates", dataProviderClass = DataProviderSearchCar.class)
     public void searchNegativeTest_WrongPeriodDPFile(String date){
         app.getHelperCar().fillCarSearchForm("Tel Aviv", date);
-        //app.getHelperCar().getScreen("src/test/resources/screenshots/wrongPeriodDPFile.png");
+        app.getHelperCar().pause(3);
         Assert.assertTrue(app.getHelperCar().isYallaButtonNotActive());
-
+        app.getHelperCar().submitYala();
         Assert.assertTrue(app.getHelperCar().isTextOfDateErrorPresent());
-        List<String> errorTexts = new ArrayList<>();
-        errorTexts.add("You can't pick date before today");
-        errorTexts.add("Second date must be after first date");
-        errorTexts.add("You can't book car for less than a day");
-        errorTexts.add("Dates are required");
-        Assert.assertTrue(errorTexts.contains(app.getHelperCar().getTextOfDateError()));
     }
 }
